@@ -34,6 +34,21 @@ class EventSourcingKataTest {
         auctionRepository.getById(auction.id).shouldBeEqual(auction)
     }
 
+    @Test
+    fun `close auction`() {
+        val auction = Auction(
+            id = UUID.randomUUID().toString(),
+            itemDescription = "Mario Bros NES",
+            initialPrice = 10000
+        )
+        auction.bid(auction.initialPrice + 100)
+        auction.close()
+
+        auctionRepository.save(auction)
+
+        auctionRepository.getById(auction.id).shouldBeEqual(auction)
+    }
+
 }
 
 

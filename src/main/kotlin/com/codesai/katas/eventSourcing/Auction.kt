@@ -6,6 +6,8 @@ class Auction {
     val itemDescription: String
     val initialPrice: Int
     var currentBid: Int = 0
+    var closed : Boolean = false
+    var hasWinner: Boolean = false
 
     val changes : MutableList<BaseEvent> = mutableListOf()
 
@@ -35,12 +37,22 @@ class Auction {
     private fun applyEvent(event: BaseEvent) {
         when(event) {
             is AuctionNewBid -> applyEvent(event)
+            is AuctionClosed -> applyEvent(event)
             else -> throw RuntimeException("unknow event $event")
         }
     }
 
     private fun applyEvent(event: AuctionNewBid) {
         this.currentBid = event.newBid
+    }
+
+    private fun applyEvent(event: AuctionClosed) {
+        this.closed = true
+        this.hasWinner = event.hasWinner
+    }
+
+    fun close() {
+        applyEvent(AuctionClosed(this.id, this.currentBid != 0))
     }
 
     override fun equals(other: Any?): Boolean {
