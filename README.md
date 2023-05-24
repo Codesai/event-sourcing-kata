@@ -12,13 +12,13 @@ de eventos donde hemos descubierto los siguientes eventos:
 - Cierre de la subasta: Puede ser cerrada con un ganador o haber quedado desierta
 
 Pasos:
-    - Crear un auction y guardar/recuperar el auction persistiendo en un almacen de eventos
-    - Permitir que se pueda pujar en el auction
-    - Permitir que se puede cerrar la subasta
-    - Versionado: añadir al evento de bid el nombre del usuario que gano la puja. en este caso tendremos varias
-    opciones para el diseño:
-        - tratar todos los eventos en el agregado
-        - convertir los eventos en el repositorio y tratar sólo la ultima versión en el agregado
-    - Snapshots: Crear una snapshot del agregado cada N eventos, a la hora de reconstruir el agregado a 
-    partir de los eventos partir del spanshot y luego aplicar los eventos siguientes.
+- Crear un auction y guardar/recuperar el auction persistiendo en un almacen de eventos
+- Permitir que se pueda pujar en el auction
+- Permitir que se puede cerrar la subasta
+- Versionado: añadir al evento de bid el nombre del usuario que gano la puja. en este caso tendremos varias
+opciones para el diseño:
+  - tratar todos los eventos en el agregado
+  - convertir los eventos en el repositorio y tratar sólo la ultima versión en el agregado
+- Snapshots: Crear una snapshot del agregado cada N eventos, a la hora de reconstruir el agregado a 
+partir de los eventos partir del spanshot y luego aplicar los eventos siguientes.
 
