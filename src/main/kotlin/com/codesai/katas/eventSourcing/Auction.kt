@@ -2,9 +2,9 @@ package com.codesai.katas.eventSourcing
 
 class Auction {
 
-    val id: String
-    val itemDescription: String
-    val initialPrice: Int
+    var id: String = ""
+    var itemDescription: String = ""
+    var initialPrice: Int = 0
     var currentBid: Int = 0
     var closed : Boolean = false
     var hasWinner: Boolean = false
@@ -18,11 +18,7 @@ class Auction {
         changes.add(AuctionCreated(id, itemDescription, initialPrice))
     }
 
-    constructor(created : AuctionCreated, events : List<BaseEvent>) {
-        this.id = created.id
-        this.itemDescription = created.itemDescription
-        this.initialPrice = created.initialPrice
-
+    constructor(events : List<BaseEvent>) {
         events.forEach { applyEvent(it) }
     }
 
@@ -36,9 +32,9 @@ class Auction {
 
     private fun applyEvent(event: BaseEvent) {
         when(event) {
+            is AuctionCreated -> applyEvent(event)
             is AuctionNewBid -> applyEvent(event)
             is AuctionClosed -> applyEvent(event)
-            else -> throw RuntimeException("unknow event $event")
         }
     }
 
@@ -49,6 +45,12 @@ class Auction {
     private fun applyEvent(event: AuctionClosed) {
         this.closed = true
         this.hasWinner = event.hasWinner
+    }
+
+    private fun applyEvent(event: AuctionCreated) {
+        this.id = event.id
+        this.itemDescription = event.itemDescription
+        this.initialPrice = event.initialPrice
     }
 
     fun close() {
