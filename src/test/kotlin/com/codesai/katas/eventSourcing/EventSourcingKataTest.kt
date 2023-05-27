@@ -8,7 +8,7 @@ class EventSourcingKataTest {
     private val auctionRepository = AuctionRepositoryEventSourcing()
 
     @Test
-    fun `create an auction and store`() {
+    fun `create an auction`() {
         val auction = Auction(
             id = UUID.randomUUID().toString(),
             itemDescription = "Mario Bros NES",
