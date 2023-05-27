@@ -30,6 +30,10 @@ class Auction {
         applyEvent(event)
     }
 
+    fun close() {
+        applyEvent(AuctionClosed(this.id, this.currentBid != 0))
+    }
+
     private fun applyEvent(event: BaseEvent) {
         when(event) {
             is AuctionCreated -> applyEvent(event)
@@ -51,10 +55,6 @@ class Auction {
         this.id = event.id
         this.itemDescription = event.itemDescription
         this.initialPrice = event.initialPrice
-    }
-
-    fun close() {
-        applyEvent(AuctionClosed(this.id, this.currentBid != 0))
     }
 
     override fun equals(other: Any?): Boolean {
