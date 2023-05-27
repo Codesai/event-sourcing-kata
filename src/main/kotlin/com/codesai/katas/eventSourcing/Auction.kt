@@ -20,7 +20,7 @@ class Auction {
         changes.add(AuctionCreated(id, itemDescription, initialPrice))
     }
 
-    constructor(events : List<BaseEvent>) {
+    constructor(events : List<DomainEvent>) {
         events.forEach { applyEvent(it) }
     }
 
@@ -36,10 +36,10 @@ class Auction {
         applyEvent(AuctionClosed(this.id, this.currentBid != 0))
     }
 
-    private fun applyEvent(event: BaseEvent) {
+    private fun applyEvent(event: DomainEvent) {
         when(event) {
             is AuctionCreated -> applyEvent(event)
-            is AuctionNewBid -> applyEvent(event)
+            is AuctionNewBidV2 -> applyEvent(event)
             is AuctionClosed -> applyEvent(event)
         }
     }

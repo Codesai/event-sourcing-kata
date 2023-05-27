@@ -9,7 +9,8 @@ class AuctionRepositoryEventSourcing {
     }
 
     fun getById(id: String): Auction {
-        val aggregateEvents = inMemoryEvents.filter { event -> event.id == id }
+        val aggregateEvents = inMemoryEvents.filter { event -> event.id == id }.map { it.convert() }
+
         return Auction(aggregateEvents)
     }
 }
