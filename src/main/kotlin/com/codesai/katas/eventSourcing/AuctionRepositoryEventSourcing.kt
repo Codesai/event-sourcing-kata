@@ -9,7 +9,13 @@ class AuctionRepositoryEventSourcing {
     }
 
     fun getById(id: String): Auction {
-        val aggregateEvents = inMemoryEvents.filter { event -> event.id == id }.map { it.convert() }
+        val aggregateEvents = inMemoryEvents
+            .filter { event -> event.id == id }
+            .map { when (it) {
+                    is DeprecatedEvent -> it.toLastVersion()
+                    is DomainEvent -> it
+                }
+            }
 
         return Auction(aggregateEvents)
     }
