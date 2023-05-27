@@ -1,7 +1,6 @@
 package com.codesai.katas.eventSourcing
 import io.kotest.matchers.equals.shouldBeEqual
 import org.junit.jupiter.api.Test
-import java.util.UUID
 
 class EventSourcingKataTest {
 
@@ -10,7 +9,6 @@ class EventSourcingKataTest {
     @Test
     fun `create an auction`() {
         val auction = Auction(
-            id = UUID.randomUUID().toString(),
             itemDescription = "Mario Bros NES",
             initialPrice = 10000
         )
@@ -23,7 +21,6 @@ class EventSourcingKataTest {
     @Test
     fun `new bid`() {
         val auction = Auction(
-            id = UUID.randomUUID().toString(),
             itemDescription = "Mario Bros NES",
             initialPrice = 10000
         )
@@ -37,7 +34,6 @@ class EventSourcingKataTest {
     @Test
     fun `close auction`() {
         val auction = Auction(
-            id = UUID.randomUUID().toString(),
             itemDescription = "Mario Bros NES",
             initialPrice = 10000
         )

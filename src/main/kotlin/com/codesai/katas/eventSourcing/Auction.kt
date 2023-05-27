@@ -1,5 +1,7 @@
 package com.codesai.katas.eventSourcing
 
+import java.util.*
+
 class Auction {
 
     var id: String = ""
@@ -11,8 +13,8 @@ class Auction {
 
     val changes : MutableList<BaseEvent> = mutableListOf()
 
-    constructor(id: String, itemDescription: String, initialPrice: Int) {
-        this.id = id
+    constructor(itemDescription: String, initialPrice: Int) {
+        this.id = UUID.randomUUID().toString()
         this.itemDescription = itemDescription
         this.initialPrice = initialPrice
         changes.add(AuctionCreated(id, itemDescription, initialPrice))
