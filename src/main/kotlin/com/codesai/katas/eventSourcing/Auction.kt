@@ -8,6 +8,7 @@ class Auction {
     var itemDescription: String = ""
     var initialPrice: Int = 0
     var currentBid: Int = 0
+    var bidder: String = ""
     var closed : Boolean = false
     var hasWinner: Boolean = false
 
@@ -24,10 +25,10 @@ class Auction {
         events.forEach { applyEvent(it) }
     }
 
-    fun bid(newBid: Int) {
+    fun bid(newBid: Int, bidder: String) {
         if (newBid < currentBid) throw RuntimeException("bid must be greater than $currentBid")
 
-        val event = AuctionNewBid(this.id, newBid)
+        val event = AuctionNewBidV2(this.id, newBid, bidder)
 
         applyEvent(event)
     }
@@ -40,11 +41,17 @@ class Auction {
         when(event) {
             is AuctionCreated -> applyEvent(event)
             is AuctionNewBid -> applyEvent(event)
+            is AuctionNewBidV2 -> applyEvent(event)
             is AuctionClosed -> applyEvent(event)
         }
     }
 
     private fun applyEvent(event: AuctionNewBid) {
+        this.currentBid = event.newBid
+    }
+
+    private fun applyEvent(event: AuctionNewBidV2) {
+        this.bidder = event.bidder
         this.currentBid = event.newBid
     }
 

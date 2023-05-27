@@ -2,7 +2,8 @@
 
 El objetivo de esta kata es practicar Event Sourcing a través de un ejemplo con 
 código dirigido por test para familiarizarnos con esta estrategía de persistencia y 
-sus implicaciones en el diseño/arquitectura de nuestro código.
+sus implicaciones en el diseño/arquitectura de nuestro código, fundamentalmente del diseño
+de los agregados.
 
 El ejemplo consiste en modelar una casa de subastas online, partiremos de un modelado
 de eventos donde hemos descubierto los siguientes eventos:
@@ -12,9 +13,17 @@ de eventos donde hemos descubierto los siguientes eventos:
 - Cierre de la subasta: Puede ser cerrada con un ganador o haber quedado desierta
 
 Pasos:
-- Crear un auction y guardar/recuperar el auction persistiendo en un almacen de eventos
-- Permitir que se pueda pujar en el auction
-- Permitir que se puede cerrar la subasta
+Primera parte de la kata
+
+  - Crear un auction y guardar/recuperar el auction persistiendo en un almacen de eventos
+  - Permitir que se pueda pujar en el auction
+  - Permitir que se puede cerrar la subasta
+
+Preguntas:
+  - ¿El agregado inmutable?
+  - ¿Tener varios constructores?
+  - comprobar integridad eventos (el evento created es el primero)
+
 - Versionado: añadir al evento de bid el nombre del usuario que gano la puja. en este caso tendremos varias
 opciones para el diseño:
   - tratar todos los eventos en el agregado

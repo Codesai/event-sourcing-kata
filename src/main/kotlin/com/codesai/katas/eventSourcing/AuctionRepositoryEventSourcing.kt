@@ -1,8 +1,8 @@
 package com.codesai.katas.eventSourcing
 
-class AuctionRepositoryEventSourcing {
+open class AuctionRepositoryEventSourcing {
 
-    private val inMemoryEvents : MutableList<BaseEvent> = mutableListOf()
+    internal val inMemoryEvents : MutableList<BaseEvent> = mutableListOf()
 
     fun save(auction: Auction) {
         inMemoryEvents.addAll(auction.changes)
