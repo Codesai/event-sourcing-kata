@@ -1,22 +1,33 @@
 package com.codesai.katas.eventSourcing
 
-class AuctionRepositoryEventSourcing {
+interface AuctionRepository {
+    fun save(auction: Auction)
+    fun getById(id: String): Auction
+}
+
+class AuctionRepositoryEventSourcing : AuctionRepository {
 
     private val inMemoryEvents : MutableList<BaseEvent> = mutableListOf()
 
-    fun save(auction: Auction) {
+    override fun save(auction: Auction) {
         inMemoryEvents.addAll(auction.changes)
     }
 
-    fun getById(id: String): Auction {
+    override fun getById(id: String): Auction {
+        val aggregateEvents = aggregateEvents(id)
+
+        return Auction(aggregateEvents)
+    }
+
+    fun aggregateEvents(id: String): List<DomainEvent> {
         val aggregateEvents = inMemoryEvents
             .filter { event -> event.id == id }
-            .map { when (it) {
+            .map {
+                when (it) {
                     is DeprecatedEvent -> it.toLastVersion()
                     is DomainEvent -> it
                 }
             }
-
-        return Auction(aggregateEvents)
+        return aggregateEvents
     }
 }

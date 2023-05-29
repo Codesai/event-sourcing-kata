@@ -36,7 +36,7 @@ class Auction {
         applyEvent(AuctionClosed(this.id, this.currentBid != 0))
     }
 
-    private fun applyEvent(event: DomainEvent) {
+    fun applyEvent(event: DomainEvent) {
         when(event) {
             is AuctionCreated -> applyEvent(event)
             is AuctionNewBidV2 -> applyEvent(event)
