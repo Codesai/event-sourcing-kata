@@ -19,31 +19,10 @@ class EventSourcingKataTest {
     }
 
     @Test
-    fun `new bid`() {
-        val auction = Auction(
-            itemDescription = "Mario Bros NES",
-            initialPrice = 10000
-        )
-        auction.bid(auction.initialPrice + 100)
+    fun `make a new bid`() {
 
-        auctionRepository.save(auction)
-
-        auctionRepository.getById(auction.id).shouldBeEqual(auction)
     }
 
-    @Test
-    fun `close auction`() {
-        val auction = Auction(
-            itemDescription = "Mario Bros NES",
-            initialPrice = 10000
-        )
-        auction.bid(auction.initialPrice + 100)
-        auction.close()
-
-        auctionRepository.save(auction)
-
-        auctionRepository.getById(auction.id).shouldBeEqual(auction)
-    }
 
 }
 

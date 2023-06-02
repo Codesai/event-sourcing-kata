@@ -7,9 +7,6 @@ class Auction {
     var id: String = ""
     var itemDescription: String = ""
     var initialPrice: Int = 0
-    var currentBid: Int = 0
-    var closed : Boolean = false
-    var hasWinner: Boolean = false
 
     val changes : MutableList<BaseEvent> = mutableListOf()
 
@@ -20,37 +17,14 @@ class Auction {
         changes.add(AuctionCreated(id, itemDescription, initialPrice))
     }
 
-    constructor(events : List<DomainEvent>) {
+    constructor(events : List<BaseEvent>) {
         events.forEach { applyEvent(it) }
     }
 
-    fun bid(newBid: Int) {
-        if (newBid < currentBid) throw RuntimeException("bid must be greater than $currentBid")
-
-        val event = AuctionNewBid(this.id, newBid)
-
-        applyEvent(event)
-    }
-
-    fun close() {
-        applyEvent(AuctionClosed(this.id, this.currentBid != 0))
-    }
-
-    private fun applyEvent(event: DomainEvent) {
+    private fun applyEvent(event: BaseEvent) {
         when(event) {
             is AuctionCreated -> applyEvent(event)
-            is AuctionNewBidV2 -> applyEvent(event)
-            is AuctionClosed -> applyEvent(event)
         }
-    }
-
-    private fun applyEvent(event: AuctionNewBid) {
-        this.currentBid = event.newBid
-    }
-
-    private fun applyEvent(event: AuctionClosed) {
-        this.closed = true
-        this.hasWinner = event.hasWinner
     }
 
     private fun applyEvent(event: AuctionCreated) {
