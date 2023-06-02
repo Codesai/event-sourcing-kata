@@ -83,13 +83,11 @@ class EventSourcingKataTest {
             auctionRepository.save(auction)
         }
 
-        override fun getById(id: String): Auction {
-            return snapshots[id]?.let { (auction, timestamp) ->
-                val events = auctionRepository.aggregateEvents(id).filter { it.timestamp > timestamp  }
-                events.forEach {auction.applyEvent(it)}
-                auction
-            } ?: auctionRepository.getById(id)
-        }
+        override fun getById(id: String) = snapshots[id]?.let { (auction, timestamp) ->
+            val events = auctionRepository.aggregateEvents(id).filter { it.timestamp > timestamp  }
+            events.forEach {auction.applyEvent(it)}
+            auction
+        } ?: auctionRepository.getById(id)
 
         fun hasSnapshotFor(id: String) = snapshots.containsKey(id)
     }
