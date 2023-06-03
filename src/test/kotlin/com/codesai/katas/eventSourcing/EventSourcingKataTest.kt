@@ -1,6 +1,7 @@
 package com.codesai.katas.eventSourcing
 import io.kotest.matchers.equality.FieldsEqualityCheckConfig
 import io.kotest.matchers.equality.beEqualComparingFields
+import io.kotest.matchers.should
 import io.kotest.matchers.shouldHave
 import org.junit.jupiter.api.Test
 import java.util.Arrays
@@ -19,7 +20,8 @@ class EventSourcingKataTest {
 
         auctionRepository.save(auction)
 
-        auctionRepository.getById(auction.id) shouldHave beEqualComparingFields(auction, ignoringFields(Auction::changes))
+        auctionRepository.getById(auction.id) should
+                beEqualComparingFields(auction, ignoringFields(Auction::changes))
     }
 
     @Test
