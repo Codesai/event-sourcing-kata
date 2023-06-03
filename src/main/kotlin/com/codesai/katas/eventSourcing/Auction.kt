@@ -1,5 +1,7 @@
 package com.codesai.katas.eventSourcing
 
+import org.apache.commons.lang3.builder.ToStringBuilder
+import org.apache.commons.lang3.builder.ToStringStyle
 import java.util.*
 
 class Auction {
@@ -31,10 +33,16 @@ class Auction {
         val event = AuctionNewBidV2(this.id, newBid, bidder)
 
         applyEvent(event)
+
+        changes.add(event)
     }
 
     fun close() {
-        applyEvent(AuctionClosed(this.id, this.currentBid != 0))
+        val event = AuctionClosed(this.id, this.currentBid != 0)
+
+        applyEvent(event)
+
+        changes.add(event)
     }
 
     private fun applyEvent(event: BaseEvent) {
@@ -66,23 +74,7 @@ class Auction {
         this.initialPrice = event.initialPrice
     }
 
-    override fun equals(other: Any?): Boolean {
-        if (this === other) return true
-        if (javaClass != other?.javaClass) return false
-
-        other as Auction
-
-        if (id != other.id) return false
-        if (itemDescription != other.itemDescription) return false
-        if (initialPrice != other.initialPrice) return false
-
-        return true
-    }
-
-    override fun hashCode(): Int {
-        var result = id.hashCode()
-        result = 31 * result + itemDescription.hashCode()
-        result = 31 * result + initialPrice
-        return result
+    override fun toString(): String {
+        return ToStringBuilder.reflectionToString(this, ToStringStyle.MULTI_LINE_STYLE)
     }
 }
