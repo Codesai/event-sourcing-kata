@@ -8,8 +8,7 @@ open class AuctionRepositoryEventSourcing {
         inMemoryEvents.addAll(auction.changes)
     }
 
-    fun getById(id: String): Auction {
-        val aggregateEvents = inMemoryEvents.filter { event -> event.id == id }
-        return Auction(aggregateEvents)
-    }
+    fun getById(id: String) = Auction(
+        events = inMemoryEvents.filter { event -> event.id == id }
+    )
 }
