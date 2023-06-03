@@ -11,6 +11,8 @@ repositories {
 }
 
 dependencies {
+    implementation("org.apache.commons:commons-lang3:3.12.0")
+
     testImplementation(kotlin("test"))
 
     testImplementation("io.kotest:kotest-runner-junit5:5.6.2")
