@@ -1,6 +1,6 @@
 package com.codesai.katas.eventSourcing
 
-import java.util.*
+import java.util.UUID
 
 class Auction {
 
@@ -31,25 +31,5 @@ class Auction {
         this.id = event.id
         this.itemDescription = event.itemDescription
         this.initialPrice = event.initialPrice
-    }
-
-    override fun equals(other: Any?): Boolean {
-        if (this === other) return true
-        if (javaClass != other?.javaClass) return false
-
-        other as Auction
-
-        if (id != other.id) return false
-        if (itemDescription != other.itemDescription) return false
-        if (initialPrice != other.initialPrice) return false
-
-        return true
-    }
-
-    override fun hashCode(): Int {
-        var result = id.hashCode()
-        result = 31 * result + itemDescription.hashCode()
-        result = 31 * result + initialPrice
-        return result
     }
 }

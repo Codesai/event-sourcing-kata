@@ -1,6 +1,10 @@
 package com.codesai.katas.eventSourcing
-import io.kotest.matchers.equals.shouldBeEqual
+import io.kotest.matchers.equality.FieldsEqualityCheckConfig
+import io.kotest.matchers.equality.beEqualComparingFields
+import io.kotest.matchers.shouldHave
 import org.junit.jupiter.api.Test
+import java.util.Arrays
+import kotlin.reflect.KProperty1
 
 class EventSourcingKataTest {
 
@@ -15,7 +19,7 @@ class EventSourcingKataTest {
 
         auctionRepository.save(auction)
 
-        auctionRepository.getById(auction.id).shouldBeEqual(auction)
+        auctionRepository.getById(auction.id) shouldHave beEqualComparingFields(auction, ignoringFields(Auction::changes))
     }
 
     @Test
@@ -23,6 +27,8 @@ class EventSourcingKataTest {
 
     }
 
+    private fun ignoringFields(vararg propertiesToExclude: KProperty1<Auction, Any>) =
+        FieldsEqualityCheckConfig(propertiesToExclude = listOf(*propertiesToExclude))
 }
 
 
