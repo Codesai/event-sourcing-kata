@@ -1,5 +1,7 @@
 package com.codesai.katas.eventSourcing
 
+import org.apache.commons.lang3.builder.ToStringBuilder
+import org.apache.commons.lang3.builder.ToStringStyle
 import java.util.UUID
 
 class Auction {
@@ -31,5 +33,9 @@ class Auction {
         this.id = event.id
         this.itemDescription = event.itemDescription
         this.initialPrice = event.initialPrice
+    }
+
+    override fun toString(): String {
+        return ToStringBuilder.reflectionToString(this, ToStringStyle.MULTI_LINE_STYLE)
     }
 }
