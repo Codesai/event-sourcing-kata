@@ -4,7 +4,5 @@ sealed interface BaseEvent {
     val id: String
 }
 
-sealed interface DomainEvent : BaseEvent
-
-data class AuctionCreated(override val id: String, val itemDescription: String, val initialPrice: Int) : DomainEvent
+data class AuctionCreated(override val id: String, val itemDescription: String, val initialPrice: Int) : BaseEvent
 
