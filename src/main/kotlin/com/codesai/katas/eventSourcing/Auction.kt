@@ -1,5 +1,7 @@
 package com.codesai.katas.eventSourcing
 
+import org.apache.commons.lang3.builder.ToStringBuilder
+import org.apache.commons.lang3.builder.ToStringStyle
 import java.util.*
 
 class Auction {
@@ -11,7 +13,7 @@ class Auction {
     var closed : Boolean = false
     var hasWinner: Boolean = false
 
-    val changes : MutableList<BaseEvent> = mutableListOf()
+    val changes : MutableList<DomainEvent> = mutableListOf()
 
     constructor(itemDescription: String, initialPrice: Int) {
         this.id = UUID.randomUUID().toString()
@@ -24,16 +26,22 @@ class Auction {
         events.forEach { applyEvent(it) }
     }
 
-    fun bid(newBid: Int) {
+    fun bid(newBid: Int, bidderId: String = "anyBidderId") {
         if (newBid < currentBid) throw RuntimeException("bid must be greater than $currentBid")
 
-        val event = AuctionNewBid(this.id, newBid)
+        val event = AuctionNewBidV2(this.id, newBid, bidderId)
+
+        changes.add(event)
 
         applyEvent(event)
     }
 
     fun close() {
-        applyEvent(AuctionClosed(this.id, this.currentBid != 0))
+        val event = AuctionClosed(this.id, this.currentBid != 0)
+
+        changes.add(event)
+
+        applyEvent(event)
     }
 
     fun applyEvent(event: DomainEvent) {
@@ -44,7 +52,7 @@ class Auction {
         }
     }
 
-    private fun applyEvent(event: AuctionNewBid) {
+    private fun applyEvent(event: AuctionNewBidV2) {
         this.currentBid = event.newBid
     }
 
@@ -59,23 +67,7 @@ class Auction {
         this.initialPrice = event.initialPrice
     }
 
-    override fun equals(other: Any?): Boolean {
-        if (this === other) return true
-        if (javaClass != other?.javaClass) return false
-
-        other as Auction
-
-        if (id != other.id) return false
-        if (itemDescription != other.itemDescription) return false
-        if (initialPrice != other.initialPrice) return false
-
-        return true
-    }
-
-    override fun hashCode(): Int {
-        var result = id.hashCode()
-        result = 31 * result + itemDescription.hashCode()
-        result = 31 * result + initialPrice
-        return result
+    override fun toString(): String {
+        return ToStringBuilder.reflectionToString(this, ToStringStyle.MULTI_LINE_STYLE)
     }
 }
